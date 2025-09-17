@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ name }} - Resume</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Segoe UI", Tahoma, sans-serif;
+        background: #f4f6f9;
+        color: #2c2c2c;
+        line-height: 1.6;
+        display: flex;
+        justify-content: center;
+        padding: 30px;
+      }
+
+      .container {
+        background: #fff;
+        width: 100%;
+        max-width: 900px;
+        border-radius: 10px;
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+        padding: 40px;
+      }
+
+      h1 {
+        text-align: center;
+        font-size: 32px;
+        color: #1b1f23;
+        margin-bottom: 8px;
+      }
+
+      h2 {
+        text-align: center;
+        font-size: 18px;
+        font-weight: 400;
+        color: #444;
+        margin-top: 0;
+        margin-bottom: 25px;
+      }
+
+      hr {
+        border: none;
+        height: 2px;
+        background: linear-gradient(to right, #2d72d9, #00b4d8);
+        margin: 30px 0;
+      }
+
+      .section {
+        margin-bottom: 35px;
+      }
+
+      .section-title {
+        font-size: 20px;
+        font-weight: 600;
+        margin-bottom: 15px;
+        padding-bottom: 6px;
+        border-bottom: 2px solid #2d72d9;
+        color: #2d72d9;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      h3 {
+        font-size: 16px;
+        font-weight: 600;
+        color: #1b1f23;
+        margin-bottom: 6px;
+      }
+
+      p {
+        margin: 5px 0;
+        font-size: 14px;
+        color: #333;
+      }
+
+      ul {
+        margin: 8px 0 15px 20px;
+        padding: 0;
+      }
+
+      li {
+        margin-bottom: 6px;
+        font-size: 14px;
+        color: #444;
+      }
+
+      .contact-info {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 12px;
+        margin-bottom: 20px;
+      }
+
+      .contact-info a {
+        background: #eaf3ff;
+        color: #2d72d9;
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-size: 14px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+      }
+
+      .contact-info a:hover {
+        background: #2d72d9;
+        color: #fff;
+      }
+
+      a {
+        color: #2d72d9;
+        text-decoration: none;
+      }
+
+      a:hover {
+        text-decoration: underline;
+      }
+
+      .project-link {
+        font-size: 13px;
+        margin-left: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>{{ name }}</h1>
+      <h2>{{ title }}</h2>
+
+      <div class="contact-info">
+        {% if contact.email %}
+        <a href="mailto:{{ contact.email }}">📧 Email</a>
+        {% endif %} {% if contact.phone %}
+        <a href="tel:{{ contact.phone }}">📞 Phone</a>
+        {% endif %} {% if contact.linkedin %}
+        <a href="{{ contact.linkedin }}" target="_blank">💼 LinkedIn</a>
+        {% endif %} {% if contact.github %}
+        <a href="{{ contact.github }}" target="_blank">💻 GitHub</a>
+        {% endif %} {% if contact.location %}
+        <a href="#">📍 {{ contact.location }}</a>
+        {% endif %}
+      </div>
+
+      <hr />
+
+      <div class="section">
+        <div class="section-title">Summary</div>
+        <p>{{ summary }}</p>
+      </div>
+
+      <div class="section">
+        <div class="section-title">Skills</div>
+        {% if skills %}
+        <p><strong>Technical Skills:</strong> {{ skills|join:", " }}</p>
+        {% else %}
+        <p>No skills available.</p>
+        {% endif %}
+      </div>
+
+      <div class="section">
+        <div class="section-title">Experience</div>
+        {% if experience %} {% for job in experience %}
+        <div>
+          <h3>{{ job.position }} | {{ job.company }} ({{ job.years }})</h3>
+          <ul>
+            {% for detail in job.details %}
+            <li>{{ detail }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+        {% endfor %} {% else %}
+        <p>No experience data available.</p>
+        {% endif %}
+      </div>
+
+      <div class="section">
+        <div class="section-title">Education</div>
+        {% if education %} {% for edu in education %}
+        <div>
+          <h3>{{ edu.degree }}</h3>
+          <p><strong>{{ edu.institution }}</strong> ({{ edu.years }})</p>
+
+          {% if edu.gpa %}
+          <p><strong>{{ edu.gpa }}</strong></p>
+          {% endif %} {% if edu.coursework %}
+          <p>
+            <strong>Relevant Coursework:</strong> {{ edu.coursework|join:", " }}
+          </p>
+          {% endif %} {% if edu.awards %}
+          <p><strong>Awards:</strong> {{ edu.awards }}</p>
+          {% endif %}
+        </div>
+        {% endfor %} {% else %}
+        <p>No education data available.</p>
+        {% endif %}
+      </div>
+
+      <div class="section">
+        <div class="section-title">Projects</div>
+        {% if projects %} {% for project in projects %}
+        <div>
+          <h3>
+            {{ project.title }} ({{ project.timeline }}) {% if project.link %}
+            <a href="{{ project.link }}" class="project-link" target="_blank"
+              >🔗 View</a
+            >
+            {% endif %}
+          </h3>
+          <p>{{ project.details }}</p>
+        </div>
+        {% endfor %} {% else %}
+        <p>No projects available.</p>
+        {% endif %}
+      </div>
+    </div>
+  </body>
+</html>
